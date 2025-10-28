@@ -1,0 +1,206 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+html {
+    font-size: 18px;
+}
+
+body {
+    line-height: 1.5;
+    padding-inline: 2rem;
+}
+
+input {
+    width: 100%;
+    border: none;
+    outline: none;
+    height: 100%;
+}
+
+button {
+    border: none;
+    outline: none;
+    font-size: inherit;
+    cursor: pointer;
+}
+
+/* for hiding number input by default style  */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+/* bill left side  */
+
+.bill-splitter-container {
+    max-width: 800px;
+    margin-inline: auto;
+    display: grid;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.bill-split-calculate-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.label {
+    color: #9c60ff;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding-bottom: .5rem;
+}
+
+.input-container {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    border: 1px solid black;
+    outline: none;
+    border-radius: .3rem;
+}
+
+span {
+    font-size: 1.6rem;
+    padding: .3rem;
+    color: #9c60ff;
+}
+
+input {
+    height: 100%;
+    font-size: 1rem;
+}
+
+.select-tip-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+
+}
+
+.tip-percentage.active {
+    background-color: #9c60ff;
+    color: whitesmoke;
+    cursor: pointer;
+}
+
+
+.tip-percentage {
+    padding: .5rem;
+    background-color: #e2e8f0;
+    color: #94a3b8;
+    font-size: 1.3rem;
+    border-radius: .3rem;
+    font-weight: 600;
+    cursor: no-drop;
+
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tip-percentage.true {
+    outline: 4px solid rgb(255 162 0 / 88.8%);
+}
+
+.bill-split-number>div {
+    border: 1px solid black;
+    padding: .5rem;
+    cursor: no-drop;
+}
+
+.bill-split-number>div input {
+    cursor: no-drop;
+}
+
+.bill-split-number.active,
+.bill-split-number.active>div input {
+    cursor: pointer;
+}
+
+button {
+    padding: .5em 2em;
+
+    border-radius: .3rem;
+    transition: all .2s ease-in-out;
+}
+
+button.generate-bill-btn {
+    color: #94a3b8;
+    cursor: no-drop;
+}
+
+button.generate-bill-btn.active {
+    background-color: #9c60ff;
+    color: whitesmoke;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: .9;
+}
+
+button:active {
+    transform: scale(1.1);
+}
+
+/* bill result side  */
+.bill-split-result-container {
+    background-color: #34568b;
+    color: whitesmoke;
+    padding: 2rem;
+    border-radius: .5rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.bill-split-result-container>div:first-child {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    margin-top: 2rem;
+}
+
+.bill-split-result-container>div:first-child>div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.big-text {
+    font-size: 1.3rem;
+}
+
+.big-text+p {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #d3b9fe;
+}
+
+/* responsive design  */
+@media (min-width: 700px) {
+    .bill-splitter-container {
+        max-width: 800px;
+        margin-inline: auto;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+}

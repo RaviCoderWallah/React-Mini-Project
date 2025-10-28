@@ -6,8 +6,10 @@ function App() {
 
   return (
     <>
+    <div className='bill-splitter-container'>
       <BillSplitCalculate/>
       <BillSplitResult/>
+    </div>
     </>
   )
 }
