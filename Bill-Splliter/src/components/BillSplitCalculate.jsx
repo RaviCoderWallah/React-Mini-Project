@@ -1,16 +1,23 @@
 import { useState } from "react"
 
-const BillSplitCalculate = () => {
+const BillSplitCalculate = ({setData}) => {
 
   const [billAmount, setBillAmount] = useState(null);
   const [tipAmount, setTipAmount] = useState(null);
+  const [numOfPeople, setNumOfPeople] = useState(null);
+
   const [activeIndex, setActiveIndex] = useState(null);
+  const [isDisabled, setIsDisabled] = useState(true);
+
 
   const handleBillAmountInput = (e) => {
-    if(e.target.value == ""){
+    if (e.target.value == "") {
       setBillAmount(null);
-    }else{
+      setTipAmount(null);
+      setNumOfPeople(null);
+    } else {
       setBillAmount(e.target.value);
+      setIsDisabled(false);
     }
   }
 
@@ -24,10 +31,22 @@ const BillSplitCalculate = () => {
         setTipAmount(amount);
 
         setActiveIndex(index);
-
-        console.log(tipAmount);
       }
     }
+  }
+
+
+  const handleNumOfPeople = (e) => {
+    setNumOfPeople(parseInt(e.target.value))
+  }
+
+  const handleGenerateBill = () => {
+    setData({
+      billAmount: billAmount,
+      tipPercentage: tipAmount,
+      numOfPeople: numOfPeople
+    })
+
   }
 
 
@@ -45,20 +64,20 @@ const BillSplitCalculate = () => {
         <div className={(billAmount && billAmount.length !== 0) ? "select-tip-container active" : "select-tip-container"}>
           {
             [5, 10, 15, 25, 50, 75].map((tipPercentage, index) => {
-              return <div className={`tip-percentage ${(billAmount && activeIndex === index )? "true" : ""}`} onClick={(event) => handleTipPercentage(event, index)} key={index}>
+              return <div className={`tip-percentage ${(billAmount && activeIndex === index) ? "true" : ""}`} onClick={(event) => handleTipPercentage(event, index)} key={index}>
                 <b>{tipPercentage}</b>%
               </div>
             })
           }
         </div>
       </div>
-      <div className="bill-split-number">
+      <div className={`bill-split-number ${(billAmount && billAmount.length !== 0) ? "active" : ""}`}>
         <p className="label">Number Of People</p>
         <div>
-          <input type="number" placeholder="No of people" disabled />
+          <input type="number" placeholder="No of people" disabled={isDisabled} onChange={handleNumOfPeople} />
         </div>
       </div>
-      <button className="generate-bill-btn">Generate Bill</button>
+      <button className={`generate-bill-btn ${numOfPeople ? "active" : ""}`} onClick={handleGenerateBill}>Generate Bill</button>
     </div>
   )
 }

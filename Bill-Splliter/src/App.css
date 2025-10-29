@@ -127,9 +127,12 @@ input {
     cursor: no-drop;
 }
 
-.bill-split-number.active,
-.bill-split-number.active>div input {
+.bill-split-number.active div{
     cursor: pointer;
+}
+
+.bill-split-number.active >div input{
+    cursor:auto;
 }
 
 button {
