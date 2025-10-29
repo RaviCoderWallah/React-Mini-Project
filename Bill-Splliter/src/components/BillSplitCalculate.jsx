@@ -1,20 +1,28 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
-const BillSplitCalculate = ({setData, forDataReset}) => {
-
+const BillSplitCalculate = ({setData, resetFlag}) => {
   const [billAmount, setBillAmount] = useState(null);
   const [tipAmount, setTipAmount] = useState(null);
   const [numOfPeople, setNumOfPeople] = useState(null);
-
   const [activeIndex, setActiveIndex] = useState(null);
   const [isDisabled, setIsDisabled] = useState(true);
 
+  // Effect to handle reset
+  useEffect(() => {
+    const resetForm = () => {
+      setBillAmount(null);
+      setTipAmount(null);
+      setNumOfPeople(null);
+      setActiveIndex(null);
+      setIsDisabled(true);
+      
+      // Reset input values
+      const inputs = document.querySelectorAll('input[type="number"]');
+      inputs.forEach(input => input.value = '');
+    };
 
-  if(forDataReset.billAmount === "" && forDataReset.tipPercentage === "" && forDataReset.numOfPeople === ""){
-    setBillAmount(null);
-    setTipAmount(null);
-    setNumOfPeople(null);
-  }
+    resetForm();
+  }, [resetFlag]); // This will trigger whenever resetFlag changes
 
   const handleBillAmountInput = (e) => {
     if (e.target.value == "") {
@@ -59,7 +67,7 @@ const BillSplitCalculate = ({setData, forDataReset}) => {
   return (
     <div className="bill-split-calculate-container">
       <div className="bill-input">
-        <p className="label">Bill {billAmount}</p>
+        <p className="label">Bill</p>
         <div className="input-container">
           <span>₹</span>
           <input type="number" onChange={handleBillAmountInput} />

@@ -1,26 +1,18 @@
-const BillSplitResult = ({ result, forReset }) => {
-
-  let calulateFinalTipAmount;
-  let calculateFinalTotalAmount;
-  let calculateEachPersonBillAmount;
-
+const BillSplitResult = ({ result, onReset }) => {
+  let calulateFinalTipAmount = 0;
+  let calculateFinalTotalAmount = 0;
+  let calculateEachPersonBillAmount = 0;
 
   if (result.billAmount && result.tipPercentage && result.numOfPeople) {
-    calulateFinalTipAmount = (parseInt(result?.billAmount) / 100) * parseInt(result?.tipPercentage);
-    calculateFinalTotalAmount = parseInt(result?.billAmount) + calulateFinalTipAmount;
-    calculateEachPersonBillAmount = calculateFinalTotalAmount / parseInt(result?.numOfPeople);
-  } else {
-    calulateFinalTipAmount = 0;
-    calculateFinalTotalAmount = 0;
-    calculateEachPersonBillAmount = 0;
+    calulateFinalTipAmount = (parseFloat(result.billAmount) / 100) * parseFloat(result.tipPercentage);
+    calculateFinalTotalAmount = parseFloat(result.billAmount) + calulateFinalTipAmount;
+    calculateEachPersonBillAmount = calculateFinalTotalAmount / parseInt(result.numOfPeople);
   }
 
   const handleResetButton = () => {
-    forReset({
-      billAmount: "",
-      tipPercentage: "",
-      numOfPeople: ""
-    })
+    if (onReset) {
+      onReset();
+    }
   }
 
 
