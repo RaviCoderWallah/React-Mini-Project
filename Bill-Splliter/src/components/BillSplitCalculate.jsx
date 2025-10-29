@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-const BillSplitCalculate = ({setData}) => {
+const BillSplitCalculate = ({setData, forDataReset}) => {
 
   const [billAmount, setBillAmount] = useState(null);
   const [tipAmount, setTipAmount] = useState(null);
@@ -9,6 +9,12 @@ const BillSplitCalculate = ({setData}) => {
   const [activeIndex, setActiveIndex] = useState(null);
   const [isDisabled, setIsDisabled] = useState(true);
 
+
+  if(forDataReset.billAmount === "" && forDataReset.tipPercentage === "" && forDataReset.numOfPeople === ""){
+    setBillAmount(null);
+    setTipAmount(null);
+    setNumOfPeople(null);
+  }
 
   const handleBillAmountInput = (e) => {
     if (e.target.value == "") {

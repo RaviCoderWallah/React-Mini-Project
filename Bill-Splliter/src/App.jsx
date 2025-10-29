@@ -6,15 +6,15 @@ import BillSplitResult from './components/BillSplitResult'
 function App() {
 
    const [data, setData] = useState({
-    billAmount: null,
-    tipPercentage: null,
-    numOfPeople: null
+    billAmount: "",
+    tipPercentage: "",
+    numOfPeople: ""
    });
 
   return (
     <>
     <div className='bill-splitter-container'>
-      <BillSplitCalculate setData={setData}/>
+      <BillSplitCalculate setData={setData} forDataReset={setData}/>
       <BillSplitResult result={data} forReset={setData}/>
     </div>
     </>

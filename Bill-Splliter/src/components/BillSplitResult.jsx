@@ -1,8 +1,27 @@
-const BillSplitResult = ({result}) => {
+const BillSplitResult = ({ result, forReset }) => {
 
-  const calulateFinalTipAmount = (parseInt(result?.billAmount) / 100) * parseInt(result?.tipPercentage);
-  const calculateFinalTotalAmount = parseInt(result?.billAmount) + calulateFinalTipAmount;
-  const calculateEachPersonBillAmount = calculateFinalTotalAmount / parseInt(result?.numOfPeople);
+  let calulateFinalTipAmount;
+  let calculateFinalTotalAmount;
+  let calculateEachPersonBillAmount;
+
+
+  if (result.billAmount && result.tipPercentage && result.numOfPeople) {
+    calulateFinalTipAmount = (parseInt(result?.billAmount) / 100) * parseInt(result?.tipPercentage);
+    calculateFinalTotalAmount = parseInt(result?.billAmount) + calulateFinalTipAmount;
+    calculateEachPersonBillAmount = calculateFinalTotalAmount / parseInt(result?.numOfPeople);
+  } else {
+    calulateFinalTipAmount = 0;
+    calculateFinalTotalAmount = 0;
+    calculateEachPersonBillAmount = 0;
+  }
+
+  const handleResetButton = () => {
+    forReset({
+      billAmount: "",
+      tipPercentage: "",
+      numOfPeople: ""
+    })
+  }
 
 
   return (
@@ -21,7 +40,7 @@ const BillSplitResult = ({result}) => {
           <p>₹{calculateEachPersonBillAmount.toFixed(2)}</p>
         </div>
       </div>
-      <button className="reset-btn">Reset</button>
+      <button className="reset-btn" onClick={handleResetButton}>Reset</button>
     </div>
   )
 }
