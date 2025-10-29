@@ -91,7 +91,7 @@ input {
 
 }
 
-.tip-percentage.active {
+.select-tip-container.active .tip-percentage {
     background-color: #9c60ff;
     color: whitesmoke;
     cursor: pointer;
