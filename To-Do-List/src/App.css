@@ -146,3 +146,31 @@ input[type="checkbox"]:checked + p{
     color: #721c24;
     border: 1px solid #f5c6cb;
 }
+
+.save-btn{
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.save-btn:hover{
+    background-color: #218838;
+}
+
+.cancel-btn{
+    background-color: #6c757d;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cancel-btn:hover{
+    background-color: #5a6268;
+}

@@ -9,6 +9,8 @@ function App() {
   const [todoName, setTodoName] = useState("");
   const [showAlert, setShowAlert] = useState(false);
   const [alertType, setAlertType] = useState("");
+  const [editId, setEditId] = useState(null);
+  const [editText, setEditText] = useState("");
 
   useEffect(() => {
     const savedTodos = getDataLocalStorage("todoData");
@@ -44,8 +46,12 @@ function App() {
     const updatedTodos = todoList.filter(todo => todo.id !== id);
     setTodoList(updatedTodos);
     saveDataLocalStorage(updatedTodos);
+    // if editing the same item, cancel edit
+    if (editId === id) {
+      setEditId(null);
+      setEditText("");
+    }
   };
-
 
   const handleToggleCompleted = (id) => {
     const updatedTodos = todoList.map(todo =>
@@ -53,6 +59,38 @@ function App() {
     );
     setTodoList(updatedTodos);
     saveDataLocalStorage(updatedTodos);
+  };
+
+  // --- Edit handlers ---
+  const handleStartEdit = (id, currentText) => {
+    setEditId(id);
+    setEditText(currentText);
+    setShowAlert(false);
+  };
+
+  const handleEditChange = (value) => {
+    setEditText(value);
+  };
+
+  const handleSaveEdit = () => {
+    if (!editText || editText.trim().length === 0) {
+      setShowAlert(true);
+      setAlertType("error");
+      return;
+    }
+    const updatedTodos = todoList.map(todo =>
+      todo.id === editId ? { ...todo, text: editText } : todo
+    );
+    setTodoList(updatedTodos);
+    saveDataLocalStorage(updatedTodos);
+    setEditId(null);
+    setEditText("");
+    setAlertType("success");
+  };
+
+  const handleCancelEdit = () => {
+    setEditId(null);
+    setEditText("");
   };
 
 
@@ -82,6 +120,12 @@ function App() {
               completed={todo.completed}
               onDelete={handleDeleteTodo}
               isCompleted={handleToggleCompleted}
+              isEditing={editId === todo.id}
+              onStartEdit={() => handleStartEdit(todo.id, todo.text)}
+              editText={editId === todo.id ? editText : ""}
+              onEditChange={handleEditChange}
+              onSaveEdit={handleSaveEdit}
+              onCancelEdit={handleCancelEdit}
             />
           ))}
         </div>
