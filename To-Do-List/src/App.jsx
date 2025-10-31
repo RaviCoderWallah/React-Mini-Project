@@ -1,35 +1,93 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from 'react';
+import './App.css';
+import TodoList from './components/TodoList';
+import AlertBox from './components/AlertBox';
+import { getDataLocalStorage, saveDataLocalStorage } from './helpers/localStorageHelper';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [todoList, setTodoList] = useState([]);
+  const [todoName, setTodoName] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertType, setAlertType] = useState("");
+
+  useEffect(() => {
+    const savedTodos = getDataLocalStorage("todoData");
+    if (savedTodos) {
+      setTodoList(savedTodos);
+    }
+  }, []);
+
+  const handleInputValue = (value) => {
+    setTodoName(value);
+    setShowAlert(false);
+  };
+
+  const handleAddTodo = () => {
+    if (todoName.length === 0) {
+      setShowAlert(true);
+      setAlertType("error");
+    } else {
+      const newTodo = {
+        id: crypto.randomUUID(),
+        text: todoName,
+        completed: false
+      };
+
+      const updatedTodos = [...todoList, newTodo];
+      setTodoList(updatedTodos);
+      saveDataLocalStorage(updatedTodos);
+      setTodoName("");
+    }
+  };
+
+  const handleDeleteTodo = (id) => {
+    const updatedTodos = todoList.filter(todo => todo.id !== id);
+    setTodoList(updatedTodos);
+    saveDataLocalStorage(updatedTodos);
+  };
+
+
+  const handleToggleCompleted = (id) => {
+    const updatedTodos = todoList.map(todo =>
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    );
+    setTodoList(updatedTodos);
+    saveDataLocalStorage(updatedTodos);
+  };
+
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      {showAlert && <AlertBox alertType={alertType} msg="Please ! Fill the todo first." />}
+
+      <div className='todo-list-container'>
+        <h1>Todo List</h1>
+
+        <div className='todo-list-input'>
+          <input
+            type="text"
+            placeholder='Your todo..'
+            value={todoName}
+            onChange={(e) => handleInputValue(e.target.value)}
+          />
+          <button onClick={handleAddTodo}>Add</button>
+        </div>
+
+        <div className='todo-list-result'>
+          {Array.isArray(todoList) && todoList.map((todo) => (
+            <TodoList
+              key={todo.id}
+              id={todo.id}
+              todoName={todo.text}
+              completed={todo.completed}
+              onDelete={handleDeleteTodo}
+              isCompleted={handleToggleCompleted}
+            />
+          ))}
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
