@@ -6,8 +6,8 @@ import './App.css'
 import { useEffect } from 'react'
 
 function App() {
-  const [allNotes, setAllNotes] = useState([]);      // 🔹 original data
-  const [filteredNotes, setFilteredNotes] = useState([]); // 🔹 what to display
+  const [allNotes, setAllNotes] = useState([]);     
+  const [filteredNotes, setFilteredNotes] = useState([]); 
 
 
   useEffect(() => {
@@ -17,7 +17,7 @@ function App() {
     }
   }, []);
 
-  
+
   useEffect(() => {
     if (allNotes.length > 0) {
       localStorage.setItem('notes', JSON.stringify(allNotes));
@@ -27,14 +27,23 @@ function App() {
 
   return (
     <div className='wrapper'>
-      {/* Left side adds notes */}
-      <LeftSideBar setAllNotes={setAllNotes} allNotes={allNotes} setFilteredNotes={setFilteredNotes} />
 
-      {/* Center shows visible notes */}
-      <NotesCardList notesData={filteredNotes.length ? filteredNotes : allNotes} />
+      <LeftSideBar
+        setAllNotes={setAllNotes}
+        allNotes={allNotes}
+        setFilteredNotes={setFilteredNotes}
+      />
 
-      {/* Right side filters */}
-      <RightSideBar allNotes={allNotes} setFilteredNotes={setFilteredNotes} />
+      <NotesCardList
+        notesData={filteredNotes.length ? filteredNotes : allNotes}
+        setAllNotes={setAllNotes}
+        allNotes={allNotes}
+      />
+
+      <RightSideBar
+        allNotes={allNotes}
+        setFilteredNotes={setFilteredNotes}
+      />
     </div>
   )
 }

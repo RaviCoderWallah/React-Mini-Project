@@ -1,7 +1,7 @@
 import HeaderSearchBar from "./HeaderSearchBar"
 import NotesCard from "./NotesCard"
 
-const NotesCardList = ({ notesData }) => {
+const NotesCardList = ({ notesData, allNotes , setAllNotes }) => {
   return (
     <div className="main-content">
       <HeaderSearchBar />
@@ -10,6 +10,9 @@ const NotesCardList = ({ notesData }) => {
           <NotesCard 
             key={note.id}
             note={note}
+            id={note.id}
+            allNotes={allNotes}
+            setAllNotes={setAllNotes}
           />
         ))}
         {notesData?.length === 0 && (
