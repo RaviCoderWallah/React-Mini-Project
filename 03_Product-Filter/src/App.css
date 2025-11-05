@@ -380,3 +380,12 @@ input[type="checkbox"] {
 }
 
 /* right sidebar styling end  */
+
+.input-label{
+    display: flex;
+    justify-content: space-between;
+}
+
+.input-label span{
+    color: lightblue;
+}

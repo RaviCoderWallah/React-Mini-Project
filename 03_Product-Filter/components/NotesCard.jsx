@@ -1,17 +1,15 @@
-const NotesCard = () => {
+const NotesCard = ({ note }) => {
   return (
     <div className="notes-card">
-      <h2 className="notes-title">Making React Projects</h2>
-      <p className="notes-content">
-        React is a popular JavaScript library for building user interfaces and single-page applications.
-      </p>
-      <div className="notes-created-date">2023-03-15</div>
-      <div class="notes-tag">
+      <h2 className="notes-title">{note.title}</h2>
+      <p className="notes-content">{note.description}</p>
+      <div className="notes-created-date">{note.dateCreateAt}</div>
+      <div className="notes-tag">
         <div className="category-tag">
-          Work
+          {note.category}
         </div>
-        <div className="priority-tag high">
-          High
+        <div className={`priority-tag ${note.priority}`}>
+          {note.priority}
         </div>
       </div>
       <div className="notes-footer">
