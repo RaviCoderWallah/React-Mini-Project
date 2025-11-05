@@ -2,26 +2,37 @@ import { useState } from "react"
 
 const RightSideBar = ({ allNotes, setFilteredNotes }) => {
 
- const [filterPriority, setFilterPriority] = useState("");
+  const [filterPriority, setFilterPriority] = useState("");
+  const [filterCategory, setFilterCategory] = useState("");
 
   const handleChange = (e) => {
     setFilterPriority(e.target.value);
   };
 
+  const handleCategoryChange = (e) => {
+    setFilterCategory(e.target.value);
+  }
+
   const handleApplyFilter = () => {
-    if (filterPriority === "") {
+    // If no filters selected, show all notes
+    if (filterPriority === "" && filterCategory === "") {
       setFilteredNotes(allNotes);
       return;
     }
 
-    const filteredData = allNotes.filter(
-      (note) => note.priority === filterPriority
-    );
+    // Filter based on both conditions
+    const filteredData = allNotes.filter((note) => {
+      const matchPriority = filterPriority ? note.priority === filterPriority : true;
+      const matchCategory = filterCategory ? note.category === filterCategory : true;
+      return matchPriority && matchCategory;
+    });
+
     setFilteredNotes(filteredData);
   };
 
   const handleClearFilter = () => {
     setFilterPriority("");
+    setFilterCategory("");
     setFilteredNotes([]); // show all notes again
   };
 
@@ -35,15 +46,30 @@ const RightSideBar = ({ allNotes, setFilteredNotes }) => {
           <h3>Categories</h3>
           <div className="category-filter">
             <label>
-              <input type="checkbox" value="work" />
+              <input
+                type="radio"
+                value="work"
+                onChange={handleCategoryChange}
+                checked={filterCategory === "work"}
+              />
               Work
             </label>
             <label>
-              <input type="checkbox" value="personal" />
+              <input
+                type="radio"
+                value="personal"
+                onChange={handleCategoryChange}
+                checked={filterCategory === "personal"}
+              />
               Personal
             </label>
             <label>
-              <input type="checkbox" value="important" />
+              <input
+                type="radio"
+                value="important"
+                onChange={handleCategoryChange}
+                checked={filterCategory === "important"}
+              />
               Important
             </label>
           </div>
