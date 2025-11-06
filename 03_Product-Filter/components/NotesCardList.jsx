@@ -5,6 +5,7 @@ import NotesCard from "./NotesCard";
 const NotesCardList = ({ notesData, allNotes, setAllNotes, onEditNote }) => {
   const [searchInputValue, setSearchInputValue] = useState("");
 
+
   const handleInputValueChange = (value) => {
     setSearchInputValue(value);
   };

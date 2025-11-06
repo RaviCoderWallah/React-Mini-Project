@@ -8,9 +8,7 @@ import { useEffect } from 'react'
 function App() {
   const [allNotes, setAllNotes] = useState([]);
   const [filteredNotes, setFilteredNotes] = useState([]);
-
   const [editNote, setEditNote] = useState(null);
-
 
   useEffect(() => {
     const savedNotes = localStorage.getItem('notes');
@@ -27,9 +25,8 @@ function App() {
   }, [allNotes]);
 
   const handleEditNote = (note) => {
-    setEditNote(note); 
+    setEditNote(note);
   };
-
 
 
   return (

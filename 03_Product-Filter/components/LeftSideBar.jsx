@@ -1,19 +1,19 @@
-import {useState } from "react";
+import { useEffect, useState } from "react";
 
-const LeftSideBar = ({ setAllNotes, allNotes, setFilteredNotes, updateNote }) => {
+const LeftSideBar = ({ allNotes, setAllNotes, setFilteredNotes, updateNote }) => {
   const [formData, setFormData] = useState({
     id: crypto.randomUUID(),
-    title: '',
-    description: '',
-    category: '',
-    priority: '',
+    title: "",
+    description: "",
+    category: "",
+    priority: "",
     dateCreateAt: new Date().toLocaleDateString('en-GB').replace(/\//g, '-')
   });
 
-  const [trackTitleLength, isTrackTitleLength] = useState(0);
-  const [trackDescriptionLength, isTrackDescriptionLength] = useState(0);
+  const [trackTitleLength, setTrackTitleLength] = useState(0);
+  const [trackDescriptionLength, setTrackDescriptionLength] = useState(0);
 
-  // Handle input change dynamically
+  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -21,59 +21,62 @@ const LeftSideBar = ({ setAllNotes, allNotes, setFilteredNotes, updateNote }) =>
       [name]: value
     }));
 
-    if (name === "title") {
-      isTrackTitleLength(value.length);
-    }
-
-    if (name === "description") {
-      isTrackDescriptionLength(value.length);
-    }
+    if (name === "title") setTrackTitleLength(value.length);
+    if (name === "description") setTrackDescriptionLength(value.length);
   };
 
+  // Handle form submit
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Add the new note to both states
-    const updatedNotes = [...allNotes, formData];
-    setAllNotes(updatedNotes);      // ✅ update master data
-    setFilteredNotes(updatedNotes); // ✅ show it immediately on UI
+    let updatedNotes;
+    if (updateNote) {
+      // Update existing note
+      updatedNotes = allNotes.map((note) =>
+        note.id === formData.id ? formData : note
+      );
+    } else {
+      // Add new note
+      updatedNotes = [...allNotes, formData];
+    }
 
-    // Reset form
+    setAllNotes(updatedNotes);
+    setFilteredNotes(updatedNotes);
+    localStorage.setItem("notes", JSON.stringify(updatedNotes));
+
+
+    // Reset form for next note
     setFormData({
       id: crypto.randomUUID(),
-      title: '',
-      description: '',
-      category: '',
-      priority: '',
+      title: "",
+      description: "",
+      category: "",
+      priority: "",
       dateCreateAt: new Date().toLocaleDateString('en-GB').replace(/\//g, '-')
     });
-    isTrackTitleLength(0);
-    isTrackDescriptionLength(0);
-  }
+    setTrackTitleLength(0);
+    setTrackDescriptionLength(0);
+  };
 
-  // useEffect(() => {
-  //   const noteToUpdate = JSON.parse(localStorage.getItem("notes"));
-  //   const updatedNotes = noteToUpdate.filter((note) => note.id === updateNote);
-  //   console.log(updatedNotes);
-  //   setFormData({
-  //     id: updatedNotes.id,
-  //     title: updatedNotes.title,
-  //     description: updatedNotes.description,
-  //     category: updatedNotes.category,
-  //     priority: updatedNotes.priority,
-  //     dateCreateAt: new Date().toLocaleDateString('en-GB').replace(/\//g, '-')
-  //   })
-  // }, [updateNote]);
+  // Load note when editing
+  useEffect(() => {
+    if (!updateNote) return;
 
-  console.log(updateNote)
+    const notesFromStorage = JSON.parse(localStorage.getItem("notes")) || [];
+    const noteToEdit = notesFromStorage.find((note) => note.id === updateNote);
 
+    if (noteToEdit) {
+      setFormData(noteToEdit);
+      setTrackTitleLength(noteToEdit.title.length);
+      setTrackDescriptionLength(noteToEdit.description.length);
+    }
+  }, [updateNote]);
 
   return (
     <div className="left-sidebar">
-      <h1>Create a New Note</h1>
+      <h1>{updateNote ? "Update Note" : "Add Note"}</h1>
       <form onSubmit={handleSubmit}>
         <div className="left-sidebar-controls">
-
           <div>
             <div className="input-label">
               <label htmlFor="title">Title:</label>
@@ -113,7 +116,9 @@ const LeftSideBar = ({ setAllNotes, allNotes, setFilteredNotes, updateNote }) =>
               value={formData.category}
               onChange={handleChange}
             >
-              <option value="" disabled>Select Category</option>
+              <option value="" disabled>
+                Select Category
+              </option>
               <option value="work">Work</option>
               <option value="personal">Personal</option>
               <option value="ideas">Ideas</option>
@@ -129,14 +134,16 @@ const LeftSideBar = ({ setAllNotes, allNotes, setFilteredNotes, updateNote }) =>
               value={formData.priority}
               onChange={handleChange}
             >
-              <option value="" disabled>Select Priority</option>
+              <option value="" disabled>
+                Select Priority
+              </option>
               <option value="low">Low</option>
               <option value="medium">Medium</option>
               <option value="high">High</option>
             </select>
           </div>
         </div>
-        <button type="submit">Save Note</button>
+        <button type="submit">Add Note</button>
       </form>
     </div>
   );
