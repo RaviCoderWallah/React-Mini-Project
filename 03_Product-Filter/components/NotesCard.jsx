@@ -1,5 +1,9 @@
-const NotesCard = ({ note, id, allNotes, setAllNotes }) => {
+const NotesCard = ({ note, id, allNotes, setAllNotes, onEditNote }) => {
 
+  const handleEditNote = (e) => {
+    const notesId = e.target.closest(".notes-card").id;
+    onEditNote(notesId);
+  }
 
   const handleDeleteNote = (e) => {
     const notesId = e.target.closest(".notes-card").id;
@@ -21,7 +25,7 @@ const NotesCard = ({ note, id, allNotes, setAllNotes }) => {
         </div>
       </div>
       <div className="notes-footer">
-        <button className="edit-button">Edit</button>
+        <button className="edit-button" onClick={handleEditNote}>Edit</button>
         <button className="delete-button" onClick={handleDeleteNote}>Delete</button>
       </div>
     </div>

@@ -6,8 +6,10 @@ import './App.css'
 import { useEffect } from 'react'
 
 function App() {
-  const [allNotes, setAllNotes] = useState([]);     
-  const [filteredNotes, setFilteredNotes] = useState([]); 
+  const [allNotes, setAllNotes] = useState([]);
+  const [filteredNotes, setFilteredNotes] = useState([]);
+
+  const [editNote, setEditNote] = useState(null);
 
 
   useEffect(() => {
@@ -24,6 +26,11 @@ function App() {
     }
   }, [allNotes]);
 
+  const handleEditNote = (note) => {
+    setEditNote(note); 
+  };
+
+
 
   return (
     <div className='wrapper'>
@@ -32,12 +39,14 @@ function App() {
         setAllNotes={setAllNotes}
         allNotes={allNotes}
         setFilteredNotes={setFilteredNotes}
+        updateNote={editNote}
       />
 
       <NotesCardList
         notesData={filteredNotes.length ? filteredNotes : allNotes}
         setAllNotes={setAllNotes}
         allNotes={allNotes}
+        onEditNote={handleEditNote}
       />
 
       <RightSideBar

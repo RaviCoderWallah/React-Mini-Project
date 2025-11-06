@@ -1,6 +1,6 @@
-import { useState } from "react";
+import {useState } from "react";
 
-const LeftSideBar = ({ setAllNotes, allNotes, setFilteredNotes }) => {
+const LeftSideBar = ({ setAllNotes, allNotes, setFilteredNotes, updateNote }) => {
   const [formData, setFormData] = useState({
     id: crypto.randomUUID(),
     title: '',
@@ -49,7 +49,24 @@ const LeftSideBar = ({ setAllNotes, allNotes, setFilteredNotes }) => {
     });
     isTrackTitleLength(0);
     isTrackDescriptionLength(0);
-  };
+  }
+
+  // useEffect(() => {
+  //   const noteToUpdate = JSON.parse(localStorage.getItem("notes"));
+  //   const updatedNotes = noteToUpdate.filter((note) => note.id === updateNote);
+  //   console.log(updatedNotes);
+  //   setFormData({
+  //     id: updatedNotes.id,
+  //     title: updatedNotes.title,
+  //     description: updatedNotes.description,
+  //     category: updatedNotes.category,
+  //     priority: updatedNotes.priority,
+  //     dateCreateAt: new Date().toLocaleDateString('en-GB').replace(/\//g, '-')
+  //   })
+  // }, [updateNote]);
+
+  console.log(updateNote)
+
 
   return (
     <div className="left-sidebar">
