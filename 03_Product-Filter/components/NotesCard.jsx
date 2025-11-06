@@ -1,15 +1,15 @@
 const NotesCard = ({ note, id, allNotes, setAllNotes, onEditNote }) => {
 
-  const handleEditNote = (e) => {
-    const notesId = e.target.closest(".notes-card").id;
-    onEditNote(notesId);
-  }
+  const handleEditNote = () => {
+    // use the id prop directly instead of DOM traversal
+    if (onEditNote) onEditNote(id);
+  };
 
-  const handleDeleteNote = (e) => {
-    const notesId = e.target.closest(".notes-card").id;
-    const updateNotes = allNotes.filter((note) => note.id !== notesId);
+  const handleDeleteNote = () => {
+    // filter out the current note using the id prop
+    const updateNotes = allNotes.filter((note) => note.id !== id);
     setAllNotes(updateNotes);
-  }
+  };
 
   return (
     <div className="notes-card" id={id}>

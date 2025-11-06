@@ -19,7 +19,10 @@ function App() {
 
 
   useEffect(() => {
-    if (allNotes.length > 0) {
+    // Always persist the notes array. If it's empty, remove the key to avoid stale data.
+    if (allNotes.length === 0) {
+      localStorage.removeItem('notes');
+    } else {
       localStorage.setItem('notes', JSON.stringify(allNotes));
     }
   }, [allNotes]);
