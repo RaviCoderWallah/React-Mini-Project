@@ -43,7 +43,7 @@ function App() {
 
   return (
     <>
-      <h1>Memory Card Game {clickedCard} </h1>
+      <h1>Memory Card Game </h1>
       <div className='memory-card-game'>
         {cards.map((image, index) => (
           <div
